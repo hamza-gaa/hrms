@@ -191,5 +191,24 @@ def get_custom_fields():
 				"options": "Egypt Employee Relative",
 				"insert_after": "relatives_section",
 			},
+			{
+				"fieldname": "family_data_section",
+				"label": "Family Data",
+				"fieldtype": "Section Break",
+				"insert_after": "relatives_at_company",
+				"collapsible": 1,
+			},
+			{
+				"fieldname": "spouse_details",
+				"fieldtype": "Table",
+				"options": "Egypt Employee Spouse",
+				"insert_after": "family_data_section",
+			},
+			{
+				"fieldname": "children_details",
+				"fieldtype": "Table",
+				"options": "Egypt Employee Child",
+				"insert_after": "spouse_details",
+			},
 		],
 	}

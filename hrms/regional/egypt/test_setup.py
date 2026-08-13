@@ -45,3 +45,28 @@ class TestEgyptSetup(IntegrationTestCase):
 	def test_setup_creates_relatives_child_table_field(self):
 		setup()
 		self.assertTrue(frappe.db.exists("Custom Field", "Employee-relatives_at_company"))
+
+	def test_get_custom_fields_includes_spouse_table(self):
+		custom_fields = get_custom_fields()
+		fieldnames = [f["fieldname"] for f in custom_fields["Employee"]]
+		self.assertIn("spouse_details", fieldnames)
+		spouse_field = next(
+			f for f in custom_fields["Employee"] if f["fieldname"] == "spouse_details"
+		)
+		self.assertEqual(spouse_field["fieldtype"], "Table")
+		self.assertEqual(spouse_field["options"], "Egypt Employee Spouse")
+
+	def test_get_custom_fields_includes_children_table(self):
+		custom_fields = get_custom_fields()
+		fieldnames = [f["fieldname"] for f in custom_fields["Employee"]]
+		self.assertIn("children_details", fieldnames)
+		children_field = next(
+			f for f in custom_fields["Employee"] if f["fieldname"] == "children_details"
+		)
+		self.assertEqual(children_field["fieldtype"], "Table")
+		self.assertEqual(children_field["options"], "Egypt Employee Child")
+
+	def test_setup_creates_family_table_fields(self):
+		setup()
+		self.assertTrue(frappe.db.exists("Custom Field", "Employee-spouse_details"))
+		self.assertTrue(frappe.db.exists("Custom Field", "Employee-children_details"))

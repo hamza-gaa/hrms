@@ -31,3 +31,17 @@ class TestEgyptSetup(IntegrationTestCase):
 		setup()
 		uninstall()
 		self.assertFalse(frappe.db.exists("Custom Field", "Employee-national_id"))
+
+	def test_get_custom_fields_includes_relatives_table(self):
+		custom_fields = get_custom_fields()
+		fieldnames = [f["fieldname"] for f in custom_fields["Employee"]]
+		self.assertIn("relatives_at_company", fieldnames)
+		relatives_field = next(
+			f for f in custom_fields["Employee"] if f["fieldname"] == "relatives_at_company"
+		)
+		self.assertEqual(relatives_field["fieldtype"], "Table")
+		self.assertEqual(relatives_field["options"], "Egypt Employee Relative")
+
+	def test_setup_creates_relatives_child_table_field(self):
+		setup()
+		self.assertTrue(frappe.db.exists("Custom Field", "Employee-relatives_at_company"))

@@ -178,5 +178,18 @@ def get_custom_fields():
 				"insert_after": "graduation_year",
 				"description": "Drives the extended leave tier, disability income tax slab selection, and higher personal tax exemption.",
 			},
+			{
+				"fieldname": "relatives_section",
+				"label": "Relatives Working at the Company",
+				"fieldtype": "Section Break",
+				"insert_after": "is_person_of_determination",
+				"collapsible": 1,
+			},
+			{
+				"fieldname": "relatives_at_company",
+				"fieldtype": "Table",
+				"options": "Egypt Employee Relative",
+				"insert_after": "relatives_section",
+			},
 		],
 	}

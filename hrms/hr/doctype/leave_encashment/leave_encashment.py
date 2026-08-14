@@ -7,6 +7,7 @@ from frappe import _, bold
 from frappe.model.document import Document
 from frappe.utils import flt, format_date, get_link_to_form, getdate
 
+from erpnext import allow_regional
 from erpnext.accounts.general_ledger import make_gl_entries
 from erpnext.controllers.accounts_controller import AccountsController
 
@@ -16,6 +17,11 @@ from hrms.hr.utils import set_employee_name, validate_active_employee
 from hrms.payroll.doctype.salary_structure_assignment.salary_structure_assignment import (
 	get_assigned_salary_structure,
 )
+
+
+@allow_regional
+def calculate_encashment_amount_hook(leave_encashment, default_amount):
+	return default_amount
 
 
 class LeaveEncashment(AccountsController):
@@ -234,7 +240,8 @@ class LeaveEncashment(AccountsController):
 
 		per_day_encashment = per_day_encashment or 0
 
-		self.encashment_amount = self.encashment_days * per_day_encashment if per_day_encashment > 0 else 0
+		default_amount = self.encashment_days * per_day_encashment if per_day_encashment > 0 else 0
+		self.encashment_amount = calculate_encashment_amount_hook(self, default_amount)
 
 	def set_status(self, update=False):
 		precision = self.precision("paid_amount")

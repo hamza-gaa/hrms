@@ -308,6 +308,10 @@ regional_overrides = {
 		"hrms.hr.utils.calculate_hra_exemption_for_period": "hrms.regional.india.utils.calculate_hra_exemption_for_period",
 		"hrms.hr.utils.calculate_tax_with_marginal_relief": "hrms.regional.india.utils.calculate_tax_with_marginal_relief",
 	},
+	"Egypt": {
+		"hrms.hr.doctype.overtime_slip.overtime_slip.validate_overtime_detail_hook": "hrms.regional.egypt.utils.validate_overtime_detail",
+		"hrms.hr.doctype.leave_encashment.leave_encashment.calculate_encashment_amount_hook": "hrms.regional.egypt.utils.calculate_leave_encashment_amount",
+	},
 }
 
 # ERPNext doctypes for Global Search

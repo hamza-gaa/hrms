@@ -6,6 +6,7 @@ from datetime import timedelta
 from email.utils import formatdate
 
 import frappe
+from erpnext import allow_regional
 from frappe import _, bold
 from frappe.model.docstatus import DocStatus
 from frappe.model.document import Document
@@ -16,6 +17,11 @@ from hrms.payroll.doctype.payroll_entry.payroll_entry import get_start_end_dates
 from hrms.payroll.doctype.salary_structure_assignment.salary_structure_assignment import (
 	get_assigned_salary_structure,
 )
+
+
+@allow_regional
+def validate_overtime_detail_hook(overtime_slip, detail):
+	pass
 
 
 class OvertimeSlip(Document):
@@ -99,6 +105,8 @@ class OvertimeSlip(Document):
 							detail.date
 						)
 					)
+
+			validate_overtime_detail_hook(self, detail)
 
 	@frappe.whitelist()
 	def get_frequency_and_dates(self):

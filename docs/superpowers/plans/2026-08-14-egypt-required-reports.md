@@ -43,12 +43,13 @@ hiring by Job"*.
 - Tests live next to the code as `test_*.py`, extending
   `hrms.tests.utils.HRMSTestSuite`.
 - Commit messages follow Conventional Commits.
-- **No fabricated legal/government-form content.** Per explicit user
-  decision during planning (2026-08-14): Task 4 (Employment Contract)
-  builds only the doctype/print-format scaffolding, with placeholder
-  section markers the user or a legal reviewer must fill in — it does
-  not invent legal clauses. "Form 1" is not built at all in this plan
-  (see Task 4's notes) since neither the source document nor this
+- **No fabricated legal/government-form content.** This is a planning-time
+  scope decision, not yet confirmed with the user/repo owner — flag it for
+  their sign-off before or during implementation. Task 4 (Employment
+  Contract) builds only the doctype/print-format scaffolding, with
+  placeholder section markers the user or a legal reviewer must fill in —
+  it does not invent legal clauses. "Form 1" is not built at all in this
+  plan (see Task 4's notes) since neither the source document nor this
   session has the actual government form layout.
 - **Confirmed against current code** (read during planning, 2026-08-14):
   - `hrms/hr/report/daily_work_summary_replies/` is the smallest existing
@@ -553,8 +554,9 @@ git commit -m "feat(hr): add Employee Hiring By Job report"
   needs, marked with explicit `[FILL IN: ...]` Jinja comments rather than
   invented legal text.
 
-**Explicit scope decision (confirmed with the user during planning,
-2026-08-14):** neither this session nor the source document has the
+**Scope decision (planning-time judgment call, NOT yet confirmed with the
+user — surface this explicitly before implementing):** neither this
+session nor the source document has the
 actual legal wording of a compliant Egyptian employment contract, nor
 any layout/field specification for "Form 1" (an Egyptian government
 labor-registration form — a specific numbered government document, not
@@ -670,8 +672,9 @@ against the source document directly:**
 - "Report for the hiring by Job" → Task 3 (mapped to `designation`,
   confirmed the closest existing Employee field to the document's "Job"
   column in its personal-data table).
-- "Employment Contract" → Task 4, scaffold only, explicit non-fabrication
-  decision recorded and confirmed with the user before writing code.
+- "Employment Contract" → Task 4, scaffold only, non-fabrication decision
+  recorded — this is a planning-time judgment call still pending user
+  sign-off, not yet confirmed.
 - "Form 1" → **deliberately not implemented**, per the same
   non-fabrication decision — flagged prominently in Task 4, not silently
   dropped from the report's read-through of the spec.
@@ -689,9 +692,9 @@ against the source document directly:**
 apparent exception to the "No Placeholders" rule, but they are
 **deliberately, explicitly flagged non-code content** (legal text a
 qualified reviewer must supply, not an implementation detail the
-engineer forgot to write) — confirmed via explicit user sign-off during
-planning rather than silently left vague. Tasks 1-3 have zero
-placeholders; every report is fully implemented, runnable code.
+engineer forgot to write) — a planning-time judgment call pending user
+sign-off, not silently left vague. Tasks 1-3 have zero placeholders;
+every report is fully implemented, runnable code.
 
 **Type/name consistency:** All three reports follow the identical
 `execute(filters=None) -> (columns, data)` signature confirmed from

@@ -1,0 +1,180 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "field:effective_from",
+ "creation": "2026-08-14 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "effective_from",
+  "company",
+  "column_break_1",
+  "disabled",
+  "wage_bounds_section",
+  "min_basic_wage",
+  "max_basic_wage",
+  "column_break_2",
+  "min_insurance_wage",
+  "max_insurance_wage",
+  "social_insurance_section",
+  "social_insurance_employee_rate",
+  "column_break_3",
+  "social_insurance_employer_rate",
+  "overtime_section",
+  "overtime_day_multiplier",
+  "overtime_night_multiplier",
+  "column_break_4",
+  "overtime_rest_day_multiplier"
+ ],
+ "fields": [
+  {
+   "fieldname": "effective_from",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Effective From",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
+  },
+  {
+   "fieldname": "wage_bounds_section",
+   "fieldtype": "Section Break",
+   "label": "Wage Bounds"
+  },
+  {
+   "fieldname": "min_basic_wage",
+   "fieldtype": "Currency",
+   "label": "Min Basic Wage",
+   "non_negative": 1,
+   "options": "currency"
+  },
+  {
+   "fieldname": "max_basic_wage",
+   "fieldtype": "Currency",
+   "label": "Max Basic Wage",
+   "non_negative": 1,
+   "options": "currency"
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "min_insurance_wage",
+   "fieldtype": "Currency",
+   "label": "Min Insurance Wage",
+   "non_negative": 1,
+   "options": "currency"
+  },
+  {
+   "fieldname": "max_insurance_wage",
+   "fieldtype": "Currency",
+   "label": "Max Insurance Wage",
+   "non_negative": 1,
+   "options": "currency"
+  },
+  {
+   "fieldname": "social_insurance_section",
+   "fieldtype": "Section Break",
+   "label": "Social Insurance Rates"
+  },
+  {
+   "default": "11",
+   "fieldname": "social_insurance_employee_rate",
+   "fieldtype": "Percent",
+   "label": "Employee Rate"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "18.75",
+   "fieldname": "social_insurance_employer_rate",
+   "fieldtype": "Percent",
+   "label": "Employer Rate"
+  },
+  {
+   "fieldname": "overtime_section",
+   "fieldtype": "Section Break",
+   "label": "Overtime Multipliers"
+  },
+  {
+   "default": "1.35",
+   "fieldname": "overtime_day_multiplier",
+   "fieldtype": "Float",
+   "label": "Day Multiplier"
+  },
+  {
+   "default": "1.70",
+   "fieldname": "overtime_night_multiplier",
+   "fieldtype": "Float",
+   "label": "Night Multiplier"
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "2.0",
+   "fieldname": "overtime_rest_day_multiplier",
+   "fieldtype": "Float",
+   "label": "Rest Day / Holiday Multiplier"
+  }
+ ],
+ "links": [],
+ "modified": "2026-08-14 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Payroll",
+ "name": "Egypt Statutory Settings",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "effective_from",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

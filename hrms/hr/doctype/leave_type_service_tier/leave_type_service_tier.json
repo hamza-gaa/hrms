@@ -1,0 +1,50 @@
+{
+ "actions": [],
+ "creation": "2026-08-14 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "min_years",
+  "max_years",
+  "days"
+ ],
+ "fields": [
+  {
+   "fieldname": "min_years",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Min Years of Service",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "description": "Leave empty for \"and above\" (no upper bound)",
+   "fieldname": "max_years",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Max Years of Service",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "days",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Days",
+   "non_negative": 1,
+   "reqd": 1
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2026-08-14 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "HR",
+ "name": "Leave Type Service Tier",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

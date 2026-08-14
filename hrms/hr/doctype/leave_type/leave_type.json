@@ -35,6 +35,8 @@
   "column_break_22",
   "allocate_on_day",
   "rounding",
+  "service_tiers_section",
+  "service_tiers",
   "limits_tab",
   "max_leaves_allowed",
   "max_continuous_days_allowed",
@@ -233,6 +235,19 @@
    "fieldtype": "Int",
    "label": "Non-Encashable Leaves",
    "non_negative": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "service_tiers_section",
+   "fieldtype": "Section Break",
+   "label": "Service Tiers"
+  },
+  {
+   "description": "When rows exist here, annual allocation is looked up by the employee's years of service instead of using a flat Leave Policy Detail amount.",
+   "fieldname": "service_tiers",
+   "fieldtype": "Table",
+   "label": "Service Tiers",
+   "options": "Leave Type Service Tier"
   },
   {
    "fieldname": "limits_tab",

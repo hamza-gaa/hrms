@@ -48,6 +48,24 @@ COMPONENT_EVAL_GLOBALS = {
 }
 
 
+def egypt_insurance_wage_bounds(date, company=None) -> tuple[float, float]:
+	"""Return (min_insurance_wage, max_insurance_wage) from the active
+	Egypt Statutory Settings record for the given date, or (0, 0) if none
+	exists. Registered in COMPONENT_EVAL_GLOBALS so Salary Component
+	formulas can call it directly by name."""
+	from hrms.payroll.doctype.egypt_statutory_settings.egypt_statutory_settings import (
+		get_active_settings,
+	)
+
+	settings = get_active_settings(date, company=company)
+	if not settings:
+		return (0, 0)
+	return (settings.min_insurance_wage or 0, settings.max_insurance_wage or 0)
+
+
+COMPONENT_EVAL_GLOBALS["egypt_insurance_wage_bounds"] = egypt_insurance_wage_bounds
+
+
 def get_component_abbr_map() -> dict:
 	"""Cached {salary_component_abbr: 0} map, seeded into the formula eval context
 	so any component abbreviation referenced in a formula resolves (default 0).

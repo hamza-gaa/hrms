@@ -118,3 +118,7 @@ class TestEgyptSetup(IntegrationTestCase):
 
 		disability = frappe.get_doc("Income Tax Slab", "Egypt Income Tax Slab - Disability")
 		self.assertEqual(disability.standard_tax_exemption_amount, 30000)
+
+	def test_setup_creates_gratuity_rule(self):
+		setup()
+		self.assertTrue(frappe.db.exists("Gratuity Rule", "Egypt Standard Gratuity Rule"))

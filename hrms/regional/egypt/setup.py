@@ -12,6 +12,7 @@ from hrms.setup import delete_custom_fields
 def setup():
 	make_custom_fields()
 	make_income_tax_slabs()
+	make_gratuity_rule()
 
 
 def uninstall():
@@ -56,6 +57,25 @@ def make_income_tax_slabs():
 		)
 		doc.insert(ignore_permissions=True, ignore_mandatory=True)
 		doc.submit()
+
+
+def make_gratuity_rule():
+	# Placeholder slab fractions pending confirmation against docs/Payroll System.rtf.doc
+	# (source document not available in this environment as of 2026-08-14).
+	doc = frappe.get_doc(
+		{
+			"doctype": "Gratuity Rule",
+			"name": "Egypt Standard Gratuity Rule",
+			"calculate_gratuity_amount_based_on": "Sum of all previous slabs",
+			"work_experience_calculation_method": "Take Exact Completed Years",
+			"minimum_year_for_gratuity": 1,
+			"gratuity_rule_slabs": [
+				{"from_year": 0, "to_year": 5, "fraction_of_applicable_earnings": 0.5},
+				{"from_year": 5, "to_year": 0, "fraction_of_applicable_earnings": 1},
+			],
+		}
+	)
+	doc.insert(ignore_if_duplicate=True, ignore_permissions=True, ignore_mandatory=True)
 
 
 def get_custom_fields():

@@ -22,6 +22,7 @@ class TestEgyptInsuranceWageBounds(IntegrationTestCase):
 		frappe.get_doc(
 			{
 				"doctype": "Egypt Statutory Settings",
+				"name": "_Test Egypt Statutory Settings Insurance Wage",
 				"effective_from": "2026-01-01",
 				"min_insurance_wage": 2000,
 				"max_insurance_wage": 14500,

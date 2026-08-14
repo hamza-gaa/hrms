@@ -1,1 +1,85 @@
-[]
+[
+	{
+		"doctype": "Salary Component",
+		"salary_component": "Basic Salary",
+		"salary_component_abbr": "BS",
+		"type": "Earning",
+		"is_tax_applicable": 1
+	},
+	{
+		"doctype": "Salary Component",
+		"salary_component": "Meal Allowance",
+		"salary_component_abbr": "MA",
+		"type": "Earning",
+		"is_tax_applicable": 1
+	},
+	{
+		"doctype": "Salary Component",
+		"salary_component": "Grants",
+		"salary_component_abbr": "GR",
+		"type": "Earning",
+		"is_tax_applicable": 1
+	},
+	{
+		"doctype": "Salary Component",
+		"salary_component": "Living Cost",
+		"salary_component_abbr": "LC",
+		"type": "Earning",
+		"is_tax_applicable": 1
+	},
+	{
+		"doctype": "Salary Component",
+		"salary_component": "Wage Supplement",
+		"salary_component_abbr": "WS",
+		"type": "Earning",
+		"is_tax_applicable": 1
+	},
+	{
+		"doctype": "Salary Component",
+		"salary_component": "Performance Motivation",
+		"salary_component_abbr": "PM",
+		"type": "Earning",
+		"is_tax_applicable": 1
+	},
+	{
+		"doctype": "Salary Component",
+		"salary_component": "Production Motivation",
+		"salary_component_abbr": "PDM",
+		"type": "Earning",
+		"is_tax_applicable": 1
+	},
+	{
+		"doctype": "Salary Component",
+		"salary_component": "Transportation Allowance",
+		"salary_component_abbr": "TA",
+		"type": "Earning",
+		"is_tax_applicable": 0
+	},
+	{
+		"doctype": "Salary Component",
+		"salary_component": "Gross Salary",
+		"salary_component_abbr": "GP",
+		"type": "Earning",
+		"statistical_component": 1,
+		"do_not_include_in_total": 1
+	},
+	{
+		"doctype": "Salary Component",
+		"salary_component": "Insurance Wage",
+		"salary_component_abbr": "IW",
+		"type": "Earning",
+		"statistical_component": 1,
+		"do_not_include_in_total": 1,
+		"amount_based_on_formula": 1,
+		"formula": "min(max(GP * 0.75, egypt_insurance_wage_bounds(getdate())[0]), egypt_insurance_wage_bounds(getdate())[1])"
+	},
+	{
+		"doctype": "Salary Component",
+		"salary_component": "Social Insurance Contribution",
+		"salary_component_abbr": "SIC",
+		"type": "Deduction",
+		"exempted_from_income_tax": 1,
+		"amount_based_on_formula": 1,
+		"formula": "IW * 0.11"
+	}
+]

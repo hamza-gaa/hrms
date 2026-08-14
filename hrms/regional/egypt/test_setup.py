@@ -70,3 +70,51 @@ class TestEgyptSetup(IntegrationTestCase):
 		setup()
 		self.assertTrue(frappe.db.exists("Custom Field", "Employee-spouse_details"))
 		self.assertTrue(frappe.db.exists("Custom Field", "Employee-children_details"))
+
+	def test_salary_components_fixture_has_expected_components(self):
+		import json
+		import os
+
+		fixture_path = os.path.join(
+			os.path.dirname(__file__), "data", "salary_components.json"
+		)
+		with open(fixture_path) as f:
+			components = json.load(f)
+
+		names = {c["salary_component"] for c in components}
+		expected = {
+			"Basic Salary",
+			"Meal Allowance",
+			"Grants",
+			"Living Cost",
+			"Wage Supplement",
+			"Performance Motivation",
+			"Production Motivation",
+			"Transportation Allowance",
+			"Gross Salary",
+			"Insurance Wage",
+			"Social Insurance Contribution",
+		}
+		self.assertEqual(expected, names)
+
+		insurance_wage = next(c for c in components if c["salary_component"] == "Insurance Wage")
+		self.assertTrue(insurance_wage["amount_based_on_formula"])
+		self.assertIn("egypt_insurance_wage_bounds", insurance_wage["formula"])
+
+		social_insurance = next(
+			c for c in components if c["salary_component"] == "Social Insurance Contribution"
+		)
+		self.assertEqual(social_insurance["type"], "Deduction")
+		self.assertTrue(social_insurance["exempted_from_income_tax"])
+
+	def test_setup_creates_income_tax_slabs(self):
+		setup()
+		self.assertTrue(frappe.db.exists("Income Tax Slab", "Egypt Income Tax Slab - Standard"))
+		self.assertTrue(frappe.db.exists("Income Tax Slab", "Egypt Income Tax Slab - Disability"))
+
+		standard = frappe.get_doc("Income Tax Slab", "Egypt Income Tax Slab - Standard")
+		self.assertEqual(standard.standard_tax_exemption_amount, 20000)
+		self.assertEqual(len(standard.slabs), 7)
+
+		disability = frappe.get_doc("Income Tax Slab", "Egypt Income Tax Slab - Disability")
+		self.assertEqual(disability.standard_tax_exemption_amount, 30000)

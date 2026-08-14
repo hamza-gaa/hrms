@@ -11,6 +11,7 @@ from hrms.setup import delete_custom_fields
 
 def setup():
 	make_custom_fields()
+	make_income_tax_slabs()
 
 
 def uninstall():
@@ -21,6 +22,40 @@ def uninstall():
 def make_custom_fields(update=True):
 	custom_fields = get_custom_fields()
 	create_custom_fields(custom_fields, update=update)
+
+
+def make_income_tax_slabs():
+	# Placeholder bracket thresholds pending confirmation against docs/Payroll System.rtf.doc
+	# (source document not available in this environment as of 2026-08-14).
+	slabs = [
+		{"from_amount": 0, "to_amount": 40000, "percent_deduction": 0},
+		{"from_amount": 40000, "to_amount": 55000, "percent_deduction": 10},
+		{"from_amount": 55000, "to_amount": 70000, "percent_deduction": 15},
+		{"from_amount": 70000, "to_amount": 200000, "percent_deduction": 20},
+		{"from_amount": 200000, "to_amount": 400000, "percent_deduction": 22.5},
+		{"from_amount": 400000, "to_amount": 600000, "percent_deduction": 25},
+		{"from_amount": 600000, "to_amount": 0, "percent_deduction": 27},
+	]
+
+	for name, exemption in (
+		("Egypt Income Tax Slab - Standard", 20000),
+		("Egypt Income Tax Slab - Disability", 30000),
+	):
+		if frappe.db.exists("Income Tax Slab", name):
+			continue
+
+		doc = frappe.get_doc(
+			{
+				"doctype": "Income Tax Slab",
+				"name": name,
+				"effective_from": "2026-01-01",
+				"currency": "EGP",
+				"standard_tax_exemption_amount": exemption,
+				"slabs": slabs,
+			}
+		)
+		doc.insert(ignore_permissions=True, ignore_mandatory=True)
+		doc.submit()
 
 
 def get_custom_fields():

@@ -115,13 +115,22 @@ class LeavePolicyAssignment(Document):
 
 			leave_policy = frappe.get_doc("Leave Policy", self.leave_policy)
 			date_of_joining = frappe.db.get_value("Employee", self.employee, "date_of_joining")
+			years_of_service = date_diff(getdate(self.effective_from), date_of_joining) / 365.25
 
 			for leave_policy_detail in leave_policy.leave_policy_details:
 				leave_details = leave_type_details.get(leave_policy_detail.leave_type)
 
 				if not leave_details.is_lwp:
+					tiered_allocation = get_tiered_annual_allocation(
+						leave_policy_detail.leave_type, years_of_service
+					)
+					annual_allocation = (
+						tiered_allocation
+						if tiered_allocation is not None
+						else leave_policy_detail.annual_allocation
+					)
 					leave_allocation, new_leaves_allocated = self.create_leave_allocation(
-						leave_policy_detail.annual_allocation,
+						annual_allocation,
 						leave_details,
 						date_of_joining,
 					)
@@ -573,3 +582,25 @@ def get_leave_type_details():
 	for d in leave_types:
 		leave_type_details.setdefault(d.name, d)
 	return leave_type_details
+
+
+def get_tiered_annual_allocation(leave_type_name, years_of_service):
+	"""Return the annual allocation from Leave Type.service_tiers matching
+	years_of_service, or None if no tiers are configured (caller should
+	fall back to the flat Leave Policy Detail.annual_allocation)."""
+	tiers = frappe.get_all(
+		"Leave Type Service Tier",
+		filters={"parent": leave_type_name, "parenttype": "Leave Type"},
+		fields=["min_years", "max_years", "days"],
+	)
+	if not tiers:
+		return None
+
+	for tier in tiers:
+		if years_of_service < tier.min_years:
+			continue
+		if tier.max_years is not None and years_of_service >= tier.max_years:
+			continue
+		return tier.days
+
+	return None

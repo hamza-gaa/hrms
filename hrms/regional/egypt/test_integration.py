@@ -23,14 +23,17 @@ class TestEgyptCompanyIntegration(IntegrationTestCase):
 			}
 		).insert(ignore_if_duplicate=True)
 
-		company.country = "Egypt"
-		frappe.flags.country_change = True
-		company.save()
-		frappe.flags.country_change = False
+		try:
+			company.country = "Egypt"
+			frappe.flags.country_change = True
+			company.save()
+		finally:
+			frappe.flags.country_change = False
 
-		self.assertTrue(frappe.db.exists("Custom Field", "Employee-national_id"))
-		self.assertTrue(
-			frappe.db.exists("Custom Field", "Employee-social_insurance_number")
-		)
-
-		company.delete()
+		try:
+			self.assertTrue(frappe.db.exists("Custom Field", "Employee-national_id"))
+			self.assertTrue(
+				frappe.db.exists("Custom Field", "Employee-social_insurance_number")
+			)
+		finally:
+			company.delete()

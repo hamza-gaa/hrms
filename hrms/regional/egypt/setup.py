@@ -63,7 +63,7 @@ def get_custom_fields():
 				"fieldtype": "Data",
 				"insert_after": "egypt_compliance_column_break_1",
 				"translatable": 0,
-				"description": "Presence of this field marks the employee as insured for leave eligibility and statutory fund headcount purposes.",
+				"description": "Marks the employee as insured for statutory fund headcount purposes.",
 			},
 			{
 				"fieldname": "social_insurance_date",
@@ -176,7 +176,7 @@ def get_custom_fields():
 				"label": "Is Person of Determination",
 				"fieldtype": "Check",
 				"insert_after": "graduation_year",
-				"description": "Drives the extended leave tier, disability income tax slab selection, and higher personal tax exemption.",
+				"description": "Marks the employee as a person of determination for compliance reporting.",
 			},
 			{
 				"fieldname": "relatives_section",

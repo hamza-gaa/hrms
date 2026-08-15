@@ -64,6 +64,7 @@
    "reqd": 1
   },
   {
+   "description": "For reference only; salary figures are snapshotted as of Period Start, not spanning the full period.",
    "fieldname": "period_end",
    "fieldtype": "Date",
    "in_list_view": 1,

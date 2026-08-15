@@ -4,6 +4,7 @@
 import frappe
 from frappe import _
 from frappe.model.document import Document
+from frappe.utils import getdate
 
 # minimum insured headcount required before a fund applies to a company,
 # per docs/Payroll System.rtf.doc "Special Funds Calculation Screen" table
@@ -16,8 +17,21 @@ FUND_HEADCOUNT_THRESHOLDS = {
 
 
 class EgyptStatutoryFund(Document):
+	def validate(self):
+		if (
+			self.period_start
+			and self.period_end
+			and getdate(self.period_end) < getdate(self.period_start)
+		):
+			frappe.throw(_("Period End cannot be before Period Start"))
+
 	@frappe.whitelist()
 	def compute(self):
+		if self.status == "Paid":
+			frappe.throw(
+				_("Cannot recompute a fund contribution that has already been marked Paid")
+			)
+
 		self.insured_employee_count = self.get_insured_employee_count()
 
 		threshold = FUND_HEADCOUNT_THRESHOLDS.get(self.fund_type, 0)
@@ -62,7 +76,11 @@ class EgyptStatutoryFund(Document):
 
 		settings = get_active_settings(self.period_start, company=self.company)
 		if not settings:
-			frappe.throw(_("No Egypt Statutory Settings found effective on or before {0}").format(self.period_start))
+			frappe.throw(
+				_("No Egypt Statutory Settings found effective on or before {0}").format(
+					self.period_start
+				)
+			)
 
 		if self.fund_type == "Emergency Relief Fund":
 			basic_wage_total = self._get_total_basic_salary()
@@ -124,7 +142,11 @@ class EgyptStatutoryFund(Document):
 
 		employees = frappe.get_all(
 			"Employee",
-			filters={"company": self.company, "status": "Active"},
+			filters={
+				"company": self.company,
+				"status": "Active",
+				"social_insurance_number": ["not in", ["", None]],
+			},
 			pluck="name",
 		)
 		total = 0

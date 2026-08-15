@@ -12,6 +12,9 @@ Values are the 2026 figures from docs/Payroll System.rtf.doc:
 - Insurance wage: 4900-16700 EGP (updates +15%/year)
 - Social insurance: 11% employee / 18.75% employer
 - Overtime: 1.35x day / 1.70x night / 2.0x rest-day & public holiday
+- Emergency Relief Fund rate: 1%
+- Social, Health and Cultural Services Fund: 8-16 EGP per insured employee
+- Training and Rehabilitation Fund rate: 0.25%, bounded 10-30 EGP per insured employee
 
 Pass company="Your Company" to scope the record to one company instead of
 leaving it as the company-less default used by every Egypt company on site.
@@ -41,6 +44,12 @@ def execute(company=None, effective_from="2026-01-01"):
 			"overtime_day_multiplier": 1.35,
 			"overtime_night_multiplier": 1.70,
 			"overtime_rest_day_multiplier": 2.0,
+			"emergency_relief_fund_rate": 1,
+			"cultural_services_fund_min": 8,
+			"cultural_services_fund_max": 16,
+			"training_fund_rate": 0.25,
+			"training_fund_min": 10,
+			"training_fund_max": 30,
 		}
 	)
 	doc.insert(ignore_permissions=True)

@@ -29,7 +29,7 @@ class TestTieredAnnualAllocation(IntegrationTestCase):
 				"service_tiers": [
 					{"min_years": 0, "max_years": 1, "days": 15},
 					{"min_years": 1, "max_years": 10, "days": 21},
-					{"min_years": 10, "max_years": None, "days": 30},
+					{"min_years": 10, "max_years": 0, "days": 30},
 				],
 			}
 		).insert()

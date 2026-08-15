@@ -19,7 +19,8 @@
    "reqd": 1
   },
   {
-   "description": "Leave empty for \"and above\" (no upper bound)",
+   "default": "0",
+   "description": "Leave 0 for \"and above\" (no upper bound)",
    "fieldname": "max_years",
    "fieldtype": "Int",
    "in_list_view": 1,

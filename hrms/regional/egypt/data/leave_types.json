@@ -6,7 +6,7 @@
 		"service_tiers": [
 			{"min_years": 0, "max_years": 1, "days": 8},
 			{"min_years": 1, "max_years": 10, "days": 14},
-			{"min_years": 10, "max_years": null, "days": 23}
+			{"min_years": 10, "max_years": 0, "days": 23}
 		]
 	},
 	{

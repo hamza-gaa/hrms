@@ -16,11 +16,13 @@ class TestLeaveTypeServiceTier(IntegrationTestCase):
 				"leave_type_name": "Test Egypt Regular Leave",
 				"service_tiers": [
 					{"min_years": 0, "max_years": 1, "days": 15},
-					{"min_years": 1, "max_years": None, "days": 21},
+					{"min_years": 1, "max_years": 0, "days": 21},
 				],
 			}
 		).insert()
 
 		self.assertEqual(len(doc.service_tiers), 2)
 		self.assertEqual(doc.service_tiers[0].days, 15)
-		self.assertEqual(doc.service_tiers[1].max_years, None)
+		# max_years is an Int field; 0 is the "and above" (unbounded) sentinel,
+		# not None, since Frappe coerces Int columns to NOT NULL DEFAULT 0.
+		self.assertEqual(doc.service_tiers[1].max_years, 0)

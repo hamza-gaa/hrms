@@ -42,6 +42,8 @@
   "max_continuous_days_allowed",
   "column_break_bsas",
   "applicable_after",
+  "min_years_of_service",
+  "max_lifetime_allocations",
   "connections_tab"
  ],
  "fields": [
@@ -66,6 +68,22 @@
    "fieldname": "applicable_after",
    "fieldtype": "Int",
    "label": "Allow Leave Application After (Calendar Days)",
+   "non_negative": 1
+  },
+  {
+   "default": "0",
+   "description": "Leave cannot be applied for until the employee has completed this many years of service (in addition to any Allow Leave Application After day-based gate above).",
+   "fieldname": "min_years_of_service",
+   "fieldtype": "Int",
+   "label": "Minimum Years of Service Required",
+   "non_negative": 1
+  },
+  {
+   "default": "0",
+   "description": "Maximum number of times this leave type can ever be allocated to one employee (0 = unlimited). E.g. Hajj leave: 1.",
+   "fieldname": "max_lifetime_allocations",
+   "fieldtype": "Int",
+   "label": "Maximum Lifetime Allocations",
    "non_negative": 1
   },
   {

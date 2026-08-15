@@ -121,6 +121,9 @@ class LeavePolicyAssignment(Document):
 				leave_details = leave_type_details.get(leave_policy_detail.leave_type)
 
 				if not leave_details.is_lwp:
+					if self._lifetime_allocation_limit_reached(leave_policy_detail.leave_type):
+						continue
+
 					tiered_allocation = get_tiered_annual_allocation(
 						leave_policy_detail.leave_type, years_of_service
 					)
@@ -140,6 +143,19 @@ class LeavePolicyAssignment(Document):
 					}
 			self.db_set("leaves_allocated", 1)
 			return leave_allocations
+
+	def _lifetime_allocation_limit_reached(self, leave_type):
+		max_lifetime_allocations = frappe.db.get_value(
+			"Leave Type", leave_type, "max_lifetime_allocations"
+		)
+		if not max_lifetime_allocations:
+			return False
+
+		existing_count = frappe.db.count(
+			"Leave Allocation",
+			{"employee": self.employee, "leave_type": leave_type, "docstatus": 1},
+		)
+		return existing_count >= max_lifetime_allocations
 
 	def create_leave_allocation(self, annual_allocation, leave_details, date_of_joining):
 		# Creates leave allocation for the given employee in the provided leave period

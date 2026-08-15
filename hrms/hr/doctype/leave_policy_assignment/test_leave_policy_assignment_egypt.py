@@ -7,6 +7,7 @@ from frappe.tests import IntegrationTestCase
 from hrms.hr.doctype.leave_policy_assignment.leave_policy_assignment import (
 	get_tiered_annual_allocation,
 )
+from hrms.tests.utils import HRMSTestSuite
 
 
 class TestTieredAnnualAllocation(IntegrationTestCase):
@@ -38,3 +39,32 @@ class TestTieredAnnualAllocation(IntegrationTestCase):
 		self.assertEqual(get_tiered_annual_allocation(leave_type.name, years_of_service=9), 21)
 		self.assertEqual(get_tiered_annual_allocation(leave_type.name, years_of_service=10), 30)
 		self.assertEqual(get_tiered_annual_allocation(leave_type.name, years_of_service=100), 30)
+
+
+class TestLifetimeAllocationLimit(HRMSTestSuite):
+	def test_second_allocation_blocked_after_lifetime_limit(self):
+		leave_type = frappe.get_doc(
+			{
+				"doctype": "Leave Type",
+				"leave_type_name": "Test Once-Per-Career Leave",
+				"max_lifetime_allocations": 1,
+			}
+		).insert()
+		employee = self.make_employee("egypt_lifetime_once@example.com")
+
+		frappe.get_doc(
+			{
+				"doctype": "Leave Allocation",
+				"employee": employee,
+				"leave_type": leave_type.name,
+				"from_date": "2020-01-01",
+				"to_date": "2020-12-31",
+				"new_leaves_allocated": 30,
+			}
+		).submit()
+
+		assignment = frappe.get_doc(
+			doctype="Leave Policy Assignment",
+			employee=employee,
+		)
+		self.assertTrue(assignment._lifetime_allocation_limit_reached(leave_type.name))

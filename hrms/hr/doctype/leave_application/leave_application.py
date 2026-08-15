@@ -121,6 +121,7 @@ class LeaveApplication(Document, PWANotificationsMixin):
 		if frappe.db.get_value("Leave Type", self.leave_type, "is_optional_leave"):
 			self.validate_optional_leave()
 		self.validate_applicable_after()
+		self.validate_min_years_of_service()
 		self.validate_for_self_approval()
 		self.validate_leave_approver()
 		self.set_leave_approver_name()
@@ -198,6 +199,26 @@ class LeaveApplication(Document, PWANotificationsMixin):
 								self.leave_type, leave_type.applicable_after
 							)
 						)
+
+	def validate_min_years_of_service(self):
+		if not self.leave_type:
+			return
+
+		min_years_of_service = frappe.db.get_value("Leave Type", self.leave_type, "min_years_of_service")
+		if not min_years_of_service:
+			return
+
+		date_of_joining = frappe.db.get_value("Employee", self.employee, "date_of_joining")
+		if not date_of_joining:
+			return
+
+		years_of_service = date_diff(getdate(self.from_date), date_of_joining) / 365.25
+		if years_of_service < min_years_of_service:
+			frappe.throw(
+				_("{0} requires at least {1} years of service").format(
+					self.leave_type, min_years_of_service
+				)
+			)
 
 	def validate_dates(self):
 		if frappe.db.get_single_value("HR Settings", "restrict_backdated_leave_application"):

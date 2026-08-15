@@ -29,16 +29,25 @@ def make_custom_fields(update=True):
 
 
 def make_income_tax_slabs():
-	# Placeholder bracket thresholds pending confirmation against docs/Payroll System.rtf.doc
-	# (source document not available in this environment as of 2026-08-14).
+	# Bracket thresholds confirmed against docs/Payroll System.rtf.doc's income
+	# tax table. That table actually describes SIX income-dependent bracket
+	# schedules (the top bracket's threshold shifts between 600K/700K/800K/
+	# 900K/1,200K depending on the taxpayer's total annual income tier) — a
+	# nuance Frappe's Income Tax Slab doctype cannot represent, since it only
+	# holds one linear bracket ladder per record. This seeds the highest-income
+	# schedule variant (the document's rightmost column, thresholds up to
+	# 1,200K EGP), which is the schedule that ends up applying to any
+	# employee whose income reaches the top bracket. See docs/Payroll
+	# System.rtf.doc lines 631-678 and the Area 4 spec's known-limitations
+	# note for the other five variants, which are not implemented.
 	slabs = [
 		{"from_amount": 0, "to_amount": 40000, "percent_deduction": 0},
 		{"from_amount": 40000, "to_amount": 55000, "percent_deduction": 10},
 		{"from_amount": 55000, "to_amount": 70000, "percent_deduction": 15},
 		{"from_amount": 70000, "to_amount": 200000, "percent_deduction": 20},
 		{"from_amount": 200000, "to_amount": 400000, "percent_deduction": 22.5},
-		{"from_amount": 400000, "to_amount": 600000, "percent_deduction": 25},
-		{"from_amount": 600000, "to_amount": 0, "percent_deduction": 27},
+		{"from_amount": 400000, "to_amount": 1200000, "percent_deduction": 25},
+		{"from_amount": 1200000, "to_amount": 0, "percent_deduction": 27},
 	]
 
 	for name, exemption in (

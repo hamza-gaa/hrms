@@ -1,0 +1,68 @@
+[
+	{
+		"doctype": "Leave Type",
+		"leave_type_name": "Egypt Regular Leave",
+		"is_carry_forward": 1,
+		"service_tiers": [
+			{"min_years": 0, "max_years": 1, "days": 8},
+			{"min_years": 1, "max_years": 10, "days": 14},
+			{"min_years": 10, "max_years": null, "days": 23}
+		]
+	},
+	{
+		"doctype": "Leave Type",
+		"leave_type_name": "Egypt Casual Leave",
+		"is_carry_forward": 0
+	},
+	{
+		"doctype": "Leave Type",
+		"leave_type_name": "Egypt Hard Work Leave"
+	},
+	{
+		"doctype": "Leave Type",
+		"leave_type_name": "Egypt Paternity Leave",
+		"max_lifetime_allocations": 3
+	},
+	{
+		"doctype": "Leave Type",
+		"leave_type_name": "Egypt Hajj Leave",
+		"min_years_of_service": 5,
+		"max_lifetime_allocations": 1
+	},
+	{
+		"doctype": "Leave Type",
+		"leave_type_name": "Egypt Maternity Leave",
+		"max_lifetime_allocations": 3
+	},
+	{
+		"doctype": "Leave Type",
+		"leave_type_name": "Egypt Work Injury Leave",
+		"allow_negative": 1,
+		"requires_insurance": 1
+	},
+	{
+		"doctype": "Leave Type",
+		"leave_type_name": "Egypt Military Conscription Leave",
+		"allow_negative": 1
+	},
+	{
+		"doctype": "Leave Type",
+		"leave_type_name": "Egypt Mission Leave",
+		"allow_negative": 1
+	},
+	{
+		"doctype": "Leave Type",
+		"leave_type_name": "Egypt Study Leave",
+		"allow_negative": 1
+	},
+	{
+		"doctype": "Leave Type",
+		"leave_type_name": "Egypt Absence With Permission",
+		"is_lwp": 1
+	},
+	{
+		"doctype": "Leave Type",
+		"leave_type_name": "Egypt Absence Without Permission",
+		"is_lwp": 1
+	}
+]

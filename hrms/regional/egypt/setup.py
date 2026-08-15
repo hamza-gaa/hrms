@@ -1,6 +1,8 @@
 # Copyright (c) 2026, Frappe Technologies Pvt. Ltd. and Contributors
 # License: GNU General Public License v3. See license.txt
 
+import json
+
 import frappe
 from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 
@@ -13,6 +15,7 @@ def setup():
 	make_custom_fields()
 	make_income_tax_slabs()
 	make_gratuity_rule()
+	make_leave_types()
 
 
 def uninstall():
@@ -76,6 +79,18 @@ def make_gratuity_rule():
 		}
 	)
 	doc.insert(ignore_if_duplicate=True, ignore_permissions=True, ignore_mandatory=True)
+
+
+def make_leave_types():
+	file_path = frappe.get_app_path("hrms", "regional", "egypt", "data", "leave_types.json")
+	with open(file_path) as f:
+		leave_types = json.load(f)
+
+	for d in leave_types:
+		if frappe.db.exists("Leave Type", d["leave_type_name"]):
+			continue
+		doc = frappe.get_doc(d)
+		doc.insert(ignore_permissions=True, ignore_mandatory=True)
 
 
 def get_custom_fields():

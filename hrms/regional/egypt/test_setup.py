@@ -122,3 +122,23 @@ class TestEgyptSetup(IntegrationTestCase):
 	def test_setup_creates_gratuity_rule(self):
 		setup()
 		self.assertTrue(frappe.db.exists("Gratuity Rule", "Egypt Standard Gratuity Rule"))
+
+	def test_setup_creates_leave_types(self):
+		setup()
+		self.assertTrue(frappe.db.exists("Leave Type", "Egypt Regular Leave"))
+		self.assertTrue(frappe.db.exists("Leave Type", "Egypt Casual Leave"))
+		self.assertTrue(frappe.db.exists("Leave Type", "Egypt Hajj Leave"))
+
+		regular = frappe.get_doc("Leave Type", "Egypt Regular Leave")
+		self.assertEqual(len(regular.service_tiers), 3)
+		tier_days = {t.min_years: t.days for t in regular.service_tiers}
+		self.assertEqual(tier_days[0], 8)
+		self.assertEqual(tier_days[1], 14)
+		self.assertEqual(tier_days[10], 23)
+
+		hajj = frappe.get_doc("Leave Type", "Egypt Hajj Leave")
+		self.assertEqual(hajj.min_years_of_service, 5)
+		self.assertEqual(hajj.max_lifetime_allocations, 1)
+
+		absence_with_permission = frappe.get_doc("Leave Type", "Egypt Absence With Permission")
+		self.assertTrue(absence_with_permission.is_lwp)

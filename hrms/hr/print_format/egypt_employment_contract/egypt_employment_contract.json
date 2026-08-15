@@ -1,5 +1,6 @@
 {
  "align_labels_right": 0,
+ "creation": "2026-08-14 00:00:00.000000",
  "css": "",
  "disabled": 0,
  "doc_type": "Appointment Letter",
@@ -8,6 +9,8 @@
  "font": "Default",
  "html": "<div class=\"contract-header\">\n  <h2>{{ _(\"Employment Contract\") }}</h2>\n  <!-- [FILL IN: company letterhead / logo block] -->\n</div>\n\n<div class=\"contract-parties\">\n  <!-- [FILL IN: legally required party identification clause -- company\n       registration number, employee national ID, per Egyptian Labor Law\n       No. 12 of 2003 contract requirements. Not fabricated here -- confirm\n       exact required wording with a local legal reviewer before use.] -->\n  <p>{{ _(\"Employer\") }}: {{ doc.company }}</p>\n  <p>{{ _(\"Employee\") }}: {{ doc.applicant_name }}</p>\n  <p>{{ _(\"Start Date\") }}: {{ frappe.utils.formatdate(doc.appointment_date) }}</p>\n</div>\n\n<div class=\"contract-terms\">\n  <!-- [FILL IN: contract-type clause (definite/indefinite term per Labor\n       Law), probation period clause, working hours, place of work,\n       job title/duties, wage and payment terms, notice period,\n       termination conditions -- all must match this employer's actual\n       Salary Structure Assignment and the Labor Law's mandatory\n       minimums. Not fabricated here.] -->\n  {% for content in doc.terms %}\n    <p><b>{{ content.title }}: </b>{{ content.description }}</p>\n  {% endfor %}\n</div>\n\n<div class=\"contract-signatures\">\n  <!-- [FILL IN: signature blocks, Labor Office approval stamp area,\n       per standard Egyptian contract format] -->\n</div>\n",
  "line_breaks": 0,
+ "modified": "2026-08-14 00:00:00.000000",
+ "modified_by": "Administrator",
  "module": "HR",
  "name": "Egypt Employment Contract",
  "owner": "Administrator",

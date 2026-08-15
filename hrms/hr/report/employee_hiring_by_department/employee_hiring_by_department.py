@@ -14,7 +14,13 @@ def execute(filters=None):
 
 def get_columns():
 	return [
-		{"label": _("Department"), "fieldname": "department", "fieldtype": "Link", "options": "Department", "width": 220},
+		{
+			"label": _("Department"),
+			"fieldname": "department",
+			"fieldtype": "Link",
+			"options": "Department",
+			"width": 220,
+		},
 		{"label": _("Employee Count"), "fieldname": "employee_count", "fieldtype": "Int", "width": 130},
 	]
 

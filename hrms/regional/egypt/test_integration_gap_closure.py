@@ -4,13 +4,19 @@
 import frappe
 from frappe.utils import getdate
 
+from hrms.overrides.company import make_salary_components
 from hrms.payroll.utils import egypt_annual_bonus_amount
+from hrms.regional.egypt.setup import setup
 from hrms.regional.egypt.utils import validate_egypt_loan_cap
 from hrms.tests.utils import HRMSTestSuite
 
 
 class TestEgyptGapClosureIntegration(HRMSTestSuite):
 	def test_all_three_gap_closure_features_are_reachable(self):
+		# Seed Egypt regional fixtures (Income Tax Slab, Gratuity Rule, Leave Types, Salary Components)
+		setup()
+		make_salary_components("Egypt")
+
 		# Annual Bonus fixture + settings
 		self.assertTrue(
 			frappe.db.exists("Salary Component", "Annual Bonus"),

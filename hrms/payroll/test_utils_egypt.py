@@ -110,3 +110,24 @@ class TestEgyptAnnualBonusAmount(IntegrationTestCase):
 			insurance_wage=15000,
 		)
 		self.assertEqual(amount, 450)
+
+	def test_returns_nonzero_amount_when_tenure_is_exactly_one_year(self):
+		from hrms.payroll.utils import egypt_annual_bonus_amount
+
+		frappe.get_doc(
+			{
+				"doctype": "Egypt Statutory Settings",
+				"name": "Test Egypt Statutory Settings Bonus Boundary",
+				"effective_from": "2026-01-01",
+				"annual_bonus_rate": 3,
+				"annual_bonus_minimum_amount": 250,
+			}
+		).insert(ignore_if_duplicate=True)
+
+		# joined exactly one year before the reference date (2026-01-01) —
+		# 365 days in a non-leap year, which the old date_diff/365.25
+		# arithmetic incorrectly treated as under one year of tenure
+		amount = egypt_annual_bonus_amount(
+			date_of_joining="2025-01-01", company=None, date=getdate("2026-06-01"), insurance_wage=15000
+		)
+		self.assertEqual(amount, 450)  # 15000 * 3/100 = 450, above the 250 minimum

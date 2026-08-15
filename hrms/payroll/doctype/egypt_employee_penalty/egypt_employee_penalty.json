@@ -80,6 +80,7 @@
    "reqd": 1
   },
   {
+   "default": "0",
    "description": "Absence days this incident consumes toward the 5-days-per-month cap. 0 for pure monetary penalties that don't consume absence-days.",
    "fieldname": "days_deducted",
    "fieldtype": "Int",

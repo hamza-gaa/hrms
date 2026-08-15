@@ -72,11 +72,11 @@ def egypt_annual_bonus_amount(
 	"""Egypt Annual Bonus: max(rate% of Insurance Wage, minimum amount),
 	only for employees with >= 1 full year of tenure as of January 1 of
 	`date`'s year. Returns 0 if ineligible or no active settings exist.
-	`insurance_wage` defaults to reading the "IW" component abbreviation
-	from the eval globals cache if not passed explicitly (formula usage
-	passes it as the IW variable already resolved in the eval context;
-	direct Python callers, e.g. tests, pass it explicitly)."""
-	from frappe.utils import date_diff, getdate
+	`insurance_wage` must be supplied by the caller (typically the already-resolved
+	"IW" Salary Component value inside a formula string); when omitted, the
+	rate-based term evaluates to 0 and this function returns just the configured
+	minimum amount."""
+	from frappe.utils import add_years, getdate
 
 	from hrms.payroll.doctype.egypt_statutory_settings.egypt_statutory_settings import (
 		get_active_settings,
@@ -87,8 +87,7 @@ def egypt_annual_bonus_amount(
 		return 0
 
 	january_first = date.replace(month=1, day=1)
-	years_of_service = date_diff(january_first, getdate(date_of_joining)) / 365.25
-	if years_of_service < 1:
+	if getdate(date_of_joining) > add_years(january_first, -1):
 		return 0
 
 	settings = get_active_settings(date, company=company)

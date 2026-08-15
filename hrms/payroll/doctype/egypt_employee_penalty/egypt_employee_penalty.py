@@ -39,7 +39,7 @@ class EgyptEmployeePenalty(Document):
 			fields=["amount", "days_deducted", "reason_category"],
 		)
 
-		total_days = self.days_deducted + sum(r.days_deducted for r in other_records)
+		total_days = (self.days_deducted or 0) + sum(r.days_deducted for r in other_records)
 		if total_days > MAX_DAYS_DEDUCTED_PER_MONTH:
 			frappe.throw(
 				_("Cannot deduct more than {0} days off per month for {1}").format(
@@ -51,7 +51,7 @@ class EgyptEmployeePenalty(Document):
 		if not cap_ratio:
 			return
 
-		same_category_total = self.amount + sum(
+		same_category_total = (self.amount or 0) + sum(
 			r.amount for r in other_records if r.reason_category == self.reason_category
 		)
 

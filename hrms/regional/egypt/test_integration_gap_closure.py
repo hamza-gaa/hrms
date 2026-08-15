@@ -41,6 +41,22 @@ class TestEgyptGapClosureIntegration(HRMSTestSuite):
 		)
 		self.assertEqual(amount, 0)
 
+		# ...and a nonzero, correctly-computed amount for a genuinely eligible employee
+		frappe.get_doc(
+			{
+				"doctype": "Egypt Statutory Settings",
+				"name": "Test Egypt Statutory Settings Gap Closure Integration",
+				"effective_from": "2026-01-01",
+				"annual_bonus_rate": 3,
+				"annual_bonus_minimum_amount": 250,
+			}
+		).insert(ignore_if_duplicate=True)
+
+		eligible_amount = egypt_annual_bonus_amount(
+			date_of_joining=getdate("2020-01-01"), company=None, date=getdate(), insurance_wage=15000
+		)
+		self.assertGreater(eligible_amount, 0)
+
 		# Egypt Employee Penalty doctype is registered and insertable
 		penalty = frappe.get_doc(
 			{

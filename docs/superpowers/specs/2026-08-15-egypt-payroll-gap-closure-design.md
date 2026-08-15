@@ -157,20 +157,36 @@ component).
 - Two new fields on `Egypt Statutory Settings`: `annual_bonus_rate`
   (Percent, default `3`), `annual_bonus_minimum_amount` (Currency, default
   `250`).
-- New helper `egypt_annual_bonus_amount(employee, date) -> float`,
-  registered in `COMPONENT_EVAL_GLOBALS` (same registration point
+- New helper `egypt_annual_bonus_amount(date_of_joining, company=None,
+  date=None, insurance_wage=None) -> float`, registered in
+  `COMPONENT_EVAL_GLOBALS` (same registration point
   `egypt_insurance_wage_bounds` already uses — confirmed in
-  `hrms/payroll/doctype/salary_component/salary_component.py`, the
-  `COMPONENT_EVAL_GLOBALS` dict). Computes tenure-eligibility (≥1 full
-  year of service as of January 1 of the current payroll year) and
-  returns `max(IW * annual_bonus_rate/100, annual_bonus_minimum_amount)`
-  if eligible, else `0`.
-- Salary Component formula: `egypt_annual_bonus_amount(employee, getdate())`.
+  `hrms/payroll/utils.py`, NOT `salary_component.py` as an earlier draft
+  of this spec assumed; `COMPONENT_EVAL_GLOBALS` and
+  `egypt_insurance_wage_bounds` both live in `hrms/payroll/utils.py`).
+  Computes tenure-eligibility (≥1 full year of service as of January 1 of
+  `date`'s year) and returns `max(insurance_wage * annual_bonus_rate/100,
+  annual_bonus_minimum_amount)` if eligible, else `0`. **Takes
+  `date_of_joining`/`company`, not `employee`** — confirmed by reading
+  `get_component_eval_context()` (`hrms/payroll/utils.py:107`): a Salary
+  Component formula's evaluation context is built by merging the
+  employee's own doc fields directly into the eval namespace (so
+  `date_of_joining`, `company` are bare variables), it never includes a
+  variable literally named `employee`. `Insurance Wage`'s own existing
+  formula follows the same constraint — it takes `date`/`company`, not
+  `employee`, for the same reason.
+- Salary Component formula: `egypt_annual_bonus_amount(date_of_joining,
+  company, getdate(), IW)` — `IW` is Insurance Wage's own component
+  abbreviation, resolved to its already-computed amount earlier in the
+  same slip evaluation, the same mechanism `Social Insurance
+  Contribution`'s `IW * 0.11` formula relies on.
 - Seeded into `hrms/regional/egypt/data/salary_components.json` as a 12th
   record (`"salary_component": "Annual Bonus"`, `"salary_component_abbr":
-  "AB"`, `"type": "Earning"`, `"is_tax_applicable": 1`,
+  "ANB"` — `"AB"` avoided as too likely to collide with an
+  already-existing site-wide component abbreviation outside this Egypt
+  fixture set, `"type": "Earning"`, `"is_tax_applicable": 1`,
   `"amount_based_on_formula": 1`, `"formula":
-  "egypt_annual_bonus_amount(employee, getdate())"`).
+  "egypt_annual_bonus_amount(date_of_joining, company, getdate(), IW)"`).
 
 **Not in scope:** automatic once-a-year triggering. Same pattern as every
 other Egypt component — it computes correctly whenever a Salary Slip

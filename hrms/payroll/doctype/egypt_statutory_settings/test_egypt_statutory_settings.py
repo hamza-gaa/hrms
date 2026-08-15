@@ -99,3 +99,21 @@ class TestEgyptStatutorySettings(IntegrationTestCase):
 
 		active_other_company = get_active_settings(getdate("2026-06-01"), company="_Test Company 2")
 		self.assertEqual(active_other_company.name, default.name)
+
+	def test_create_settings_with_fund_rates(self):
+		doc = frappe.get_doc(
+			{
+				"doctype": "Egypt Statutory Settings",
+				"effective_from": "2026-02-01",
+				"emergency_relief_fund_rate": 1,
+				"cultural_services_fund_min": 8,
+				"cultural_services_fund_max": 16,
+				"training_fund_rate": 0.25,
+				"training_fund_min": 10,
+				"training_fund_max": 30,
+			}
+		).insert()
+
+		self.assertEqual(doc.emergency_relief_fund_rate, 1)
+		self.assertEqual(doc.cultural_services_fund_max, 16)
+		self.assertEqual(doc.training_fund_rate, 0.25)

@@ -25,7 +25,16 @@
   "overtime_day_multiplier",
   "overtime_night_multiplier",
   "column_break_4",
-  "overtime_rest_day_multiplier"
+  "overtime_rest_day_multiplier",
+  "statutory_funds_section",
+  "emergency_relief_fund_rate",
+  "column_break_5",
+  "cultural_services_fund_min",
+  "cultural_services_fund_max",
+  "training_funds_column_break",
+  "training_fund_rate",
+  "training_fund_min",
+  "training_fund_max"
  ],
  "fields": [
   {
@@ -136,6 +145,66 @@
    "fieldname": "overtime_rest_day_multiplier",
    "fieldtype": "Float",
    "label": "Rest Day / Holiday Multiplier"
+  },
+  {
+   "fieldname": "statutory_funds_section",
+   "fieldtype": "Section Break",
+   "label": "Statutory Fund Rates"
+  },
+  {
+   "default": "1",
+   "description": "Emergency Assistance Fund: percent of total basic salaries, for companies with 30+ insured employees.",
+   "fieldname": "emergency_relief_fund_rate",
+   "fieldtype": "Percent",
+   "label": "Emergency Relief Fund Rate"
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "8",
+   "description": "Cultural Services Fund: fixed amount per insured employee, for companies with 20+ insured employees.",
+   "fieldname": "cultural_services_fund_min",
+   "fieldtype": "Currency",
+   "label": "Cultural Services Fund Min",
+   "non_negative": 1,
+   "options": "currency"
+  },
+  {
+   "default": "16",
+   "fieldname": "cultural_services_fund_max",
+   "fieldtype": "Currency",
+   "label": "Cultural Services Fund Max",
+   "non_negative": 1,
+   "options": "currency"
+  },
+  {
+   "fieldname": "training_funds_column_break",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0.25",
+   "description": "Training and Rehabilitation Fund: percent of minimum insurance wage per insured employee, for companies with 30+ insured employees.",
+   "fieldname": "training_fund_rate",
+   "fieldtype": "Percent",
+   "label": "Training Fund Rate"
+  },
+  {
+   "default": "10",
+   "fieldname": "training_fund_min",
+   "fieldtype": "Currency",
+   "label": "Training Fund Min",
+   "non_negative": 1,
+   "options": "currency"
+  },
+  {
+   "default": "30",
+   "fieldname": "training_fund_max",
+   "fieldtype": "Currency",
+   "label": "Training Fund Max",
+   "non_negative": 1,
+   "options": "currency"
   }
  ],
  "links": [],

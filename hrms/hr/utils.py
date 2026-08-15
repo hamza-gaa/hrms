@@ -38,6 +38,7 @@ from erpnext.setup.doctype.employee.employee import (
 	get_holiday_list_for_employee,
 )
 
+import hrms
 from hrms.hr.doctype.leave_policy_assignment.leave_policy_assignment import (
 	calculate_pro_rated_leaves,
 )
@@ -853,6 +854,14 @@ def validate_loan_repay_from_salary(doc, method=None):
 
 	if not doc.is_term_loan and doc.repay_from_salary:
 		frappe.throw(_("Repay From Salary can be selected only for term loans"))
+
+	validate_loan_cap(doc)
+
+
+@hrms.allow_regional
+def validate_loan_cap(doc):
+	"""No-op outside regions that override it via regional_overrides."""
+	pass
 
 
 def get_matching_queries(

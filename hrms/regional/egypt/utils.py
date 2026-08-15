@@ -116,3 +116,26 @@ def calculate_leave_encashment_amount(leave_encashment, default_amount):
 
 	encashment_days = leave_encashment.get("encashment_days") or 0
 	return gross_salary * LEAVE_ENCASHMENT_GROSS_SALARY_FACTOR * encashment_days / 30
+
+
+LOAN_MONTHLY_INSTALLMENT_CAP_RATIO = 0.10
+
+
+def validate_egypt_loan_cap(doc):
+	"""Egypt-specific Loan validation: interest-free, monthly installment
+	capped at 10% of the employee's gross salary. Registered via
+	regional_overrides["Egypt"] against hrms.hr.utils.validate_loan_cap.
+	"""
+	if doc.applicant_type != "Employee" or not doc.repay_from_salary:
+		return
+
+	if doc.rate_of_interest:
+		frappe.throw(_("Loans to employees must be interest-free"))
+
+	gross_salary = _get_gross_salary(doc.applicant)
+	if gross_salary and doc.monthly_repayment_amount > gross_salary * LOAN_MONTHLY_INSTALLMENT_CAP_RATIO:
+		frappe.throw(
+			_("Monthly loan installment cannot exceed {0}% of the employee's gross salary").format(
+				LOAN_MONTHLY_INSTALLMENT_CAP_RATIO * 100
+			)
+		)

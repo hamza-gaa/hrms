@@ -77,6 +77,68 @@ class TestEgyptLeaveEncashmentAmount(HRMSTestSuite):
 		self.assertEqual(amount, 11250)
 
 
+class TestEgyptLoanCap(HRMSTestSuite):
+	def test_blocks_loan_with_nonzero_interest_rate(self):
+		from hrms.regional.egypt.utils import validate_egypt_loan_cap
+
+		employee = self.make_employee("egypt_loan_interest@example.com")
+		doc = frappe._dict(
+			applicant_type="Employee",
+			applicant=employee,
+			repay_from_salary=1,
+			rate_of_interest=5,
+			monthly_repayment_amount=0,
+		)
+		with self.assertRaises(frappe.ValidationError):
+			validate_egypt_loan_cap(doc)
+
+	def test_blocks_installment_above_ten_percent_of_gross_salary(self):
+		from hrms.regional.egypt.test_utils import _make_salary_structure_assignment_with_gross_salary
+		from hrms.regional.egypt.utils import validate_egypt_loan_cap
+
+		employee = self.make_employee("egypt_loan_installment@example.com")
+		_make_salary_structure_assignment_with_gross_salary(employee, gross_salary=10000)
+
+		doc = frappe._dict(
+			applicant_type="Employee",
+			applicant=employee,
+			repay_from_salary=1,
+			rate_of_interest=0,
+			monthly_repayment_amount=1500,  # 15% of 10000
+		)
+		with self.assertRaises(frappe.ValidationError):
+			validate_egypt_loan_cap(doc)
+
+	def test_allows_interest_free_loan_within_installment_cap(self):
+		from hrms.regional.egypt.test_utils import _make_salary_structure_assignment_with_gross_salary
+		from hrms.regional.egypt.utils import validate_egypt_loan_cap
+
+		employee = self.make_employee("egypt_loan_ok@example.com")
+		_make_salary_structure_assignment_with_gross_salary(employee, gross_salary=10000)
+
+		doc = frappe._dict(
+			applicant_type="Employee",
+			applicant=employee,
+			repay_from_salary=1,
+			rate_of_interest=0,
+			monthly_repayment_amount=900,  # 9% of 10000
+		)
+		validate_egypt_loan_cap(doc)  # should not raise
+
+	def test_ignores_loans_not_repaid_from_salary(self):
+		from hrms.regional.egypt.utils import validate_egypt_loan_cap
+
+		employee = self.make_employee("egypt_loan_external@example.com")
+		doc = frappe._dict(
+			applicant_type="Employee",
+			applicant=employee,
+			repay_from_salary=0,
+			rate_of_interest=10,
+			monthly_repayment_amount=99999,
+		)
+		validate_egypt_loan_cap(doc)  # should not raise, out of scope per repay_from_salary=0
+
+
 def _get_a_weekly_off_date(holiday_list):
 	if not holiday_list:
 		return None

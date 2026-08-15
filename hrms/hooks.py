@@ -311,6 +311,7 @@ regional_overrides = {
 	"Egypt": {
 		"hrms.hr.doctype.overtime_slip.overtime_slip.validate_overtime_detail_hook": "hrms.regional.egypt.utils.validate_overtime_detail",
 		"hrms.hr.doctype.leave_encashment.leave_encashment.calculate_encashment_amount_hook": "hrms.regional.egypt.utils.calculate_leave_encashment_amount",
+		"hrms.hr.utils.validate_loan_cap": "hrms.regional.egypt.utils.validate_egypt_loan_cap",
 	},
 }
 

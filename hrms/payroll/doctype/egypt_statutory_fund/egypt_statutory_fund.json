@@ -1,0 +1,158 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-08-14 00:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "fund_type",
+  "company",
+  "column_break_1",
+  "status",
+  "period_section",
+  "period_start",
+  "period_end",
+  "computation_section",
+  "insured_employee_count",
+  "rate_or_amount",
+  "column_break_2",
+  "min_value",
+  "max_value",
+  "computed_contribution"
+ ],
+ "fields": [
+  {
+   "fieldname": "fund_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Fund Type",
+   "options": "Emergency Relief Fund\nMartyrs' Families Fund\nTraining and Rehabilitation Fund\nSocial, Health and Cultural Services Fund",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nComputed\nPaid",
+   "read_only": 1
+  },
+  {
+   "fieldname": "period_section",
+   "fieldtype": "Section Break",
+   "label": "Period"
+  },
+  {
+   "fieldname": "period_start",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Period Start",
+   "reqd": 1
+  },
+  {
+   "fieldname": "period_end",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Period End",
+   "reqd": 1
+  },
+  {
+   "fieldname": "computation_section",
+   "fieldtype": "Section Break",
+   "label": "Computation"
+  },
+  {
+   "fieldname": "insured_employee_count",
+   "fieldtype": "Int",
+   "label": "Insured Employee Count",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "description": "Percent for rate-based funds, or fixed amount for min/max-bounded funds.",
+   "fieldname": "rate_or_amount",
+   "fieldtype": "Float",
+   "label": "Rate or Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "min_value",
+   "fieldtype": "Currency",
+   "label": "Min Value",
+   "non_negative": 1,
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "max_value",
+   "fieldtype": "Currency",
+   "label": "Max Value",
+   "non_negative": 1,
+   "options": "currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "computed_contribution",
+   "fieldtype": "Currency",
+   "label": "Computed Contribution",
+   "non_negative": 1,
+   "options": "currency",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-08-14 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Payroll",
+ "name": "Egypt Statutory Fund",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

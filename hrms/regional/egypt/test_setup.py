@@ -94,12 +94,17 @@ class TestEgyptSetup(IntegrationTestCase):
 			"Gross Salary",
 			"Insurance Wage",
 			"Social Insurance Contribution",
+			"Annual Bonus",
 		}
 		self.assertEqual(expected, names)
 
 		insurance_wage = next(c for c in components if c["salary_component"] == "Insurance Wage")
 		self.assertTrue(insurance_wage["amount_based_on_formula"])
 		self.assertIn("egypt_insurance_wage_bounds", insurance_wage["formula"])
+
+		annual_bonus = next(c for c in components if c["salary_component"] == "Annual Bonus")
+		self.assertTrue(annual_bonus["amount_based_on_formula"])
+		self.assertIn("egypt_annual_bonus_amount", annual_bonus["formula"])
 
 		social_insurance = next(
 			c for c in components if c["salary_component"] == "Social Insurance Contribution"

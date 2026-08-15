@@ -38,11 +38,14 @@ class TestEgyptInsuranceWageBounds(IntegrationTestCase):
 
 
 class TestEgyptAnnualBonusAmount(IntegrationTestCase):
+	def tearDown(self):
+		frappe.db.rollback()
+
 	def test_returns_zero_when_no_settings_exist(self):
 		from hrms.payroll.utils import egypt_annual_bonus_amount
 
 		amount = egypt_annual_bonus_amount(
-			date_of_joining="2020-01-01", company="_Test Company Bonus Empty", date=getdate("2026-06-01")
+			date_of_joining="1990-01-01", company=None, date=getdate("1999-01-01")
 		)
 		self.assertEqual(amount, 0)
 

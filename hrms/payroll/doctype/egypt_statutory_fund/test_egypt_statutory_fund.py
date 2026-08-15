@@ -22,14 +22,16 @@ class TestEgyptStatutoryFund(HRMSTestSuite):
 		).insert(ignore_if_duplicate=True)
 
 	def test_compute_below_headcount_threshold_yields_zero_contribution(self):
-		employee = self.make_employee("egypt_fund_single_employee@example.com")
-		frappe.db.set_value("Employee", employee, "social_insurance_number", "SI-001")
+		# a freshly-created isolated company genuinely has zero insured
+		# employees, making the below-threshold Draft/zero-contribution path
+		# actually true (not just asserted against a shared company by luck)
+		company = self.make_isolated_test_company("0")
 
 		fund = frappe.get_doc(
 			{
 				"doctype": "Egypt Statutory Fund",
 				"fund_type": "Emergency Relief Fund",
-				"company": frappe.db.get_value("Employee", employee, "company"),
+				"company": company,
 				"period_start": "2026-01-01",
 				"period_end": "2026-01-31",
 			}
@@ -41,7 +43,9 @@ class TestEgyptStatutoryFund(HRMSTestSuite):
 		self.assertEqual(fund.status, "Draft")
 
 	def test_compute_counts_only_insured_active_employees_for_the_company(self):
-		company = "_Test Company"
+		# isolated company so the count is exact and not diluted/inflated by
+		# other employees already present in the shared test company
+		company = self.make_isolated_test_company("3")
 		insured = self.make_employee("egypt_fund_insured@example.com", company=company)
 		frappe.db.set_value("Employee", insured, "social_insurance_number", "SI-002")
 		uninsured = self.make_employee("egypt_fund_uninsured@example.com", company=company)
@@ -57,13 +61,11 @@ class TestEgyptStatutoryFund(HRMSTestSuite):
 			}
 		).insert()
 
-		# force the headcount threshold check to pass regardless of how many
-		# real insured employees exist in the shared test company by
-		# monkeypatching the threshold map is unnecessary here: the test only
-		# asserts the *counting* is correct, not the threshold gate — use
-		# test_compute_applies_cultural_fund_min_value_per_insured_employee below for that.
+		# this test only verifies the counting logic itself (that uninsured
+		# employees are excluded); the headcount-threshold gate in compute()
+		# is covered separately by the isolated-company tests below.
 		count = fund.get_insured_employee_count()
-		self.assertGreaterEqual(count, 1)
+		self.assertEqual(count, 1)
 
 	def make_isolated_test_company(self, name_suffix):
 		company_name = f"_Test Egypt Fund Co {name_suffix}"

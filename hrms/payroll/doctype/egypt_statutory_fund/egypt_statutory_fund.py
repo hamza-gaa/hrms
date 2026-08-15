@@ -45,6 +45,17 @@ class EgyptStatutoryFund(Document):
 		)
 
 	def _apply_fund_rate(self):
+		if self.fund_type == "Martyrs' Families Fund":
+			# rate and inputs are self-contained (hardcoded rate + gross salary
+			# total); no Egypt Statutory Settings fields are consumed, so no
+			# settings record is required for this fund type
+			gross_salary_total = self._get_total_gross_salary()
+			self.rate_or_amount = 0.05  # 0.05% per document ("0.0005 of monthly gross salaries")
+			self.min_value = 0
+			self.max_value = 0
+			self.computed_contribution = gross_salary_total * (self.rate_or_amount / 100)
+			return
+
 		from hrms.payroll.doctype.egypt_statutory_settings.egypt_statutory_settings import (
 			get_active_settings,
 		)
@@ -59,18 +70,14 @@ class EgyptStatutoryFund(Document):
 			self.min_value = 0
 			self.max_value = 0
 			self.computed_contribution = basic_wage_total * (self.rate_or_amount / 100)
-		elif self.fund_type == "Martyrs' Families Fund":
-			gross_salary_total = self._get_total_gross_salary()
-			self.rate_or_amount = 0.05  # 0.05% per document ("0.0005 of monthly gross salaries")
-			self.min_value = 0
-			self.max_value = 0
-			self.computed_contribution = gross_salary_total * (self.rate_or_amount / 100)
 		elif self.fund_type == "Training and Rehabilitation Fund":
 			self.rate_or_amount = settings.training_fund_rate or 0
 			self.min_value = settings.training_fund_min or 0
 			self.max_value = settings.training_fund_max or 0
 			per_employee = (settings.min_insurance_wage or 0) * (self.rate_or_amount / 100)
-			per_employee = min(max(per_employee, self.min_value), self.max_value)
+			per_employee = max(per_employee, self.min_value)
+			if self.max_value:
+				per_employee = min(per_employee, self.max_value)
 			self.computed_contribution = per_employee * self.insured_employee_count
 		elif self.fund_type == "Social, Health and Cultural Services Fund":
 			self.rate_or_amount = 0

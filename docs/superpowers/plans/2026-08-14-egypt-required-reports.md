@@ -56,7 +56,12 @@ hiring by Job"*.
     Script Report (61-line `.py`), used as the structural template:
     `.json` has `doctype: "Report"`, `report_type: "Script Report"`,
     `ref_doctype`, `roles` (list of `{"role": "..."}"`), `is_standard:
-    "Yes"`; `.py` exports `execute(filters=None) -> (columns, data)`
+    "Yes"`; it also has a `.js` file
+    (`daily_work_summary_replies.js`) that declares the report's
+    filters via `frappe.query_reports["..."] = { filters: [...] }` —
+    the JSON's own `filters` array is always `[]`, so a Script Report
+    without a `.js` file has no filter controls in the Desk UI; `.py`
+    exports `execute(filters=None) -> (columns, data)`
     where `columns` is a list of `{"label", "fieldname", "fieldtype",
     "width"}` dicts and `data` is a list of row lists.
   - `Appointment Letter` doctype

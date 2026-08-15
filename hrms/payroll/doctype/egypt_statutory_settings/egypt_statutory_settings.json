@@ -34,7 +34,11 @@
   "training_funds_column_break",
   "training_fund_rate",
   "training_fund_min",
-  "training_fund_max"
+  "training_fund_max",
+  "annual_bonus_section",
+  "annual_bonus_rate",
+  "column_break_6",
+  "annual_bonus_minimum_amount"
  ],
  "fields": [
   {
@@ -203,6 +207,30 @@
    "fieldname": "training_fund_max",
    "fieldtype": "Currency",
    "label": "Training Fund Max",
+   "non_negative": 1,
+   "options": "currency"
+  },
+  {
+   "fieldname": "annual_bonus_section",
+   "fieldtype": "Section Break",
+   "label": "Annual Bonus"
+  },
+  {
+   "default": "3",
+   "description": "Percent of Insurance Wage. Employee must have completed 1 full year of service by January of the payroll year to be eligible.",
+   "fieldname": "annual_bonus_rate",
+   "fieldtype": "Percent",
+   "label": "Annual Bonus Rate"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "250",
+   "fieldname": "annual_bonus_minimum_amount",
+   "fieldtype": "Currency",
+   "label": "Annual Bonus Minimum Amount",
    "non_negative": 1,
    "options": "currency"
   }

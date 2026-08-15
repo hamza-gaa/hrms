@@ -117,3 +117,16 @@ class TestEgyptStatutorySettings(IntegrationTestCase):
 		self.assertEqual(doc.emergency_relief_fund_rate, 1)
 		self.assertEqual(doc.cultural_services_fund_max, 16)
 		self.assertEqual(doc.training_fund_rate, 0.25)
+
+	def test_create_settings_with_annual_bonus_fields(self):
+		doc = frappe.get_doc(
+			{
+				"doctype": "Egypt Statutory Settings",
+				"effective_from": "2026-03-01",
+				"annual_bonus_rate": 3,
+				"annual_bonus_minimum_amount": 250,
+			}
+		).insert()
+
+		self.assertEqual(doc.annual_bonus_rate, 3)
+		self.assertEqual(doc.annual_bonus_minimum_amount, 250)

@@ -81,5 +81,14 @@
 		"exempted_from_income_tax": 1,
 		"amount_based_on_formula": 1,
 		"formula": "IW * 0.11"
+	},
+	{
+		"doctype": "Salary Component",
+		"salary_component": "Annual Bonus",
+		"salary_component_abbr": "ANB",
+		"type": "Earning",
+		"is_tax_applicable": 1,
+		"amount_based_on_formula": 1,
+		"formula": "egypt_annual_bonus_amount(date_of_joining, company, getdate(), IW)"
 	}
 ]

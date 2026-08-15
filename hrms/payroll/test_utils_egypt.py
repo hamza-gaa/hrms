@@ -3,7 +3,7 @@
 
 import frappe
 from frappe.tests import IntegrationTestCase
-from frappe.utils import getdate
+from frappe.utils import add_days, getdate
 
 from hrms.payroll.utils import COMPONENT_EVAL_GLOBALS, egypt_insurance_wage_bounds
 
@@ -35,3 +35,75 @@ class TestEgyptInsuranceWageBounds(IntegrationTestCase):
 	def test_returns_zero_bounds_when_no_settings_exist(self):
 		bounds = egypt_insurance_wage_bounds(getdate("1999-01-01"))
 		self.assertEqual(bounds, (0, 0))
+
+
+class TestEgyptAnnualBonusAmount(IntegrationTestCase):
+	def test_returns_zero_when_no_settings_exist(self):
+		from hrms.payroll.utils import egypt_annual_bonus_amount
+
+		amount = egypt_annual_bonus_amount(
+			date_of_joining="2020-01-01", company="_Test Company Bonus Empty", date=getdate("2026-06-01")
+		)
+		self.assertEqual(amount, 0)
+
+	def test_returns_zero_when_tenure_under_one_year(self):
+		from hrms.payroll.utils import egypt_annual_bonus_amount
+
+		frappe.get_doc(
+			{
+				"doctype": "Egypt Statutory Settings",
+				"name": "Test Egypt Statutory Settings Bonus 1",
+				"effective_from": "2026-01-01",
+				"annual_bonus_rate": 3,
+				"annual_bonus_minimum_amount": 250,
+			}
+		).insert(ignore_if_duplicate=True)
+
+		amount = egypt_annual_bonus_amount(
+			date_of_joining=add_days(getdate("2026-06-01"), -100), company=None, date=getdate("2026-06-01")
+		)
+		self.assertEqual(amount, 0)
+
+	def test_returns_minimum_when_rate_based_amount_is_lower(self):
+		from hrms.payroll.utils import egypt_annual_bonus_amount
+
+		frappe.get_doc(
+			{
+				"doctype": "Egypt Statutory Settings",
+				"name": "Test Egypt Statutory Settings Bonus 2",
+				"effective_from": "2026-01-01",
+				"annual_bonus_rate": 3,
+				"annual_bonus_minimum_amount": 250,
+			}
+		).insert(ignore_if_duplicate=True)
+
+		# 3% of an insurance wage of 5000 is 150, below the 250 minimum
+		amount = egypt_annual_bonus_amount(
+			date_of_joining=add_days(getdate("2026-06-01"), -365 * 2),
+			company=None,
+			date=getdate("2026-06-01"),
+			insurance_wage=5000,
+		)
+		self.assertEqual(amount, 250)
+
+	def test_returns_rate_based_amount_when_above_minimum(self):
+		from hrms.payroll.utils import egypt_annual_bonus_amount
+
+		frappe.get_doc(
+			{
+				"doctype": "Egypt Statutory Settings",
+				"name": "Test Egypt Statutory Settings Bonus 3",
+				"effective_from": "2026-01-01",
+				"annual_bonus_rate": 3,
+				"annual_bonus_minimum_amount": 250,
+			}
+		).insert(ignore_if_duplicate=True)
+
+		# 3% of an insurance wage of 15000 is 450, above the 250 minimum
+		amount = egypt_annual_bonus_amount(
+			date_of_joining=add_days(getdate("2026-06-01"), -365 * 2),
+			company=None,
+			date=getdate("2026-06-01"),
+			insurance_wage=15000,
+		)
+		self.assertEqual(amount, 450)

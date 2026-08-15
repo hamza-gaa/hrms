@@ -66,6 +66,42 @@ def egypt_insurance_wage_bounds(date, company=None) -> tuple[float, float]:
 COMPONENT_EVAL_GLOBALS["egypt_insurance_wage_bounds"] = egypt_insurance_wage_bounds
 
 
+def egypt_annual_bonus_amount(
+	date_of_joining, company=None, date=None, insurance_wage=None
+) -> float:
+	"""Egypt Annual Bonus: max(rate% of Insurance Wage, minimum amount),
+	only for employees with >= 1 full year of tenure as of January 1 of
+	`date`'s year. Returns 0 if ineligible or no active settings exist.
+	`insurance_wage` defaults to reading the "IW" component abbreviation
+	from the eval globals cache if not passed explicitly (formula usage
+	passes it as the IW variable already resolved in the eval context;
+	direct Python callers, e.g. tests, pass it explicitly)."""
+	from frappe.utils import date_diff, getdate
+
+	from hrms.payroll.doctype.egypt_statutory_settings.egypt_statutory_settings import (
+		get_active_settings,
+	)
+
+	date = getdate(date) if date else getdate()
+	if not date_of_joining:
+		return 0
+
+	january_first = date.replace(month=1, day=1)
+	years_of_service = date_diff(january_first, getdate(date_of_joining)) / 365.25
+	if years_of_service < 1:
+		return 0
+
+	settings = get_active_settings(date, company=company)
+	if not settings:
+		return 0
+
+	rate_based = (insurance_wage or 0) * (settings.annual_bonus_rate or 0) / 100
+	return max(rate_based, settings.annual_bonus_minimum_amount or 0)
+
+
+COMPONENT_EVAL_GLOBALS["egypt_annual_bonus_amount"] = egypt_annual_bonus_amount
+
+
 def get_component_abbr_map() -> dict:
 	"""Cached {salary_component_abbr: 0} map, seeded into the formula eval context
 	so any component abbreviation referenced in a formula resolves (default 0).

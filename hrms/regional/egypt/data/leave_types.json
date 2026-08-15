@@ -64,5 +64,11 @@
 		"doctype": "Leave Type",
 		"leave_type_name": "Egypt Absence Without Permission",
 		"is_lwp": 1
+	},
+	{
+		"doctype": "Leave Type",
+		"leave_type_name": "Egypt Sick Leave",
+		"requires_insurance": 1,
+		"applicable_after": 0
 	}
 ]

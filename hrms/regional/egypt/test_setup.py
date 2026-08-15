@@ -142,3 +142,10 @@ class TestEgyptSetup(IntegrationTestCase):
 
 		absence_with_permission = frappe.get_doc("Leave Type", "Egypt Absence With Permission")
 		self.assertTrue(absence_with_permission.is_lwp)
+
+	def test_setup_creates_sick_leave_type(self):
+		setup()
+		sick_leave = frappe.get_doc("Leave Type", "Egypt Sick Leave")
+		self.assertTrue(sick_leave.requires_insurance)
+		self.assertFalse(sick_leave.is_ppl)
+		self.assertFalse(sick_leave.is_lwp)

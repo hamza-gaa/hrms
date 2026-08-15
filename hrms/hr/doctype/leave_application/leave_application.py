@@ -233,7 +233,11 @@ class LeaveApplication(Document, PWANotificationsMixin):
 			"Employee", self.employee, "social_insurance_number"
 		)
 		if not social_insurance_number:
-			frappe.throw(_("{0} requires the employee to have a Social Insurance Number").format(self.leave_type))
+			frappe.throw(
+				_("{0} requires the employee to have a Social Insurance Number").format(
+					self.leave_type
+				)
+			)
 
 	def validate_dates(self):
 		if frappe.db.get_single_value("HR Settings", "restrict_backdated_leave_application"):

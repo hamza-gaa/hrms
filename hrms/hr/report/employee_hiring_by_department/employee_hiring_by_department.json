@@ -1,0 +1,29 @@
+{
+ "add_total_row": 1,
+ "columns": [],
+ "creation": "2026-08-14 00:00:00.000000",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "is_standard": "Yes",
+ "letter_head": null,
+ "modified": "2026-08-14 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "HR",
+ "name": "Employee Hiring By Department",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Employee",
+ "report_name": "Employee Hiring By Department",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "HR User"
+  },
+  {
+   "role": "HR Manager"
+  }
+ ],
+ "timeout": 0
+}

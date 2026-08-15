@@ -122,6 +122,7 @@ class LeaveApplication(Document, PWANotificationsMixin):
 			self.validate_optional_leave()
 		self.validate_applicable_after()
 		self.validate_min_years_of_service()
+		self.validate_requires_insurance()
 		self.validate_for_self_approval()
 		self.validate_leave_approver()
 		self.set_leave_approver_name()
@@ -219,6 +220,20 @@ class LeaveApplication(Document, PWANotificationsMixin):
 					self.leave_type, min_years_of_service
 				)
 			)
+
+	def validate_requires_insurance(self):
+		if not self.leave_type:
+			return
+
+		requires_insurance = frappe.db.get_value("Leave Type", self.leave_type, "requires_insurance")
+		if not requires_insurance:
+			return
+
+		social_insurance_number = frappe.db.get_value(
+			"Employee", self.employee, "social_insurance_number"
+		)
+		if not social_insurance_number:
+			frappe.throw(_("{0} requires the employee to have a Social Insurance Number").format(self.leave_type))
 
 	def validate_dates(self):
 		if frappe.db.get_single_value("HR Settings", "restrict_backdated_leave_application"):

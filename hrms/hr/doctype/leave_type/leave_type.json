@@ -44,6 +44,7 @@
   "applicable_after",
   "min_years_of_service",
   "max_lifetime_allocations",
+  "requires_insurance",
   "connections_tab"
  ],
  "fields": [
@@ -85,6 +86,13 @@
    "fieldtype": "Int",
    "label": "Maximum Lifetime Allocations",
    "non_negative": 1
+  },
+  {
+   "default": "0",
+   "description": "Leave can only be applied for by employees with a Social Insurance Number recorded on their Employee record.",
+   "fieldname": "requires_insurance",
+   "fieldtype": "Check",
+   "label": "Requires Social Insurance"
   },
   {
    "fieldname": "max_continuous_days_allowed",

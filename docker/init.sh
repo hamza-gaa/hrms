@@ -25,7 +25,7 @@ sed -i '/redis/d' ./Procfile
 sed -i '/watch/d' ./Procfile
 
 bench get-app erpnext
-bench get-app hrms
+bench get-app hrms /hrms-src
 
 bench new-site hrms.localhost \
 --force \
@@ -38,5 +38,7 @@ bench --site hrms.localhost set-config developer_mode 1
 bench --site hrms.localhost enable-scheduler
 bench --site hrms.localhost clear-cache
 bench use hrms.localhost
+
+sed -i 's/^web: bench serve  *--port 8000$/web: bench serve --port 8000 --host 0.0.0.0/' ./Procfile
 
 bench start

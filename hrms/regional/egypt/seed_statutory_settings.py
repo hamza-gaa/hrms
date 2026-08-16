@@ -30,9 +30,11 @@ def execute(company=None, effective_from="2026-01-01"):
 		print(f"Egypt Statutory Settings for {effective_from} ({company or 'default'}) already exists.")
 		return
 
+	name = f"Egypt Statutory Settings {effective_from}" + (f" - {company}" if company else "")
 	doc = frappe.get_doc(
 		{
 			"doctype": "Egypt Statutory Settings",
+			"name": name,
 			"effective_from": effective_from,
 			"company": company,
 			"min_basic_wage": 440,

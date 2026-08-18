@@ -11997,3 +11997,133 @@ msgstr "{0}يوم"
 msgid "{} {} open for this position."
 msgstr "{} {} مفتوح لهذا المنصب."
 
+
+#. Label of the egypt_compliance_section (Section Break) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Egypt Compliance"
+msgstr "الامتثال المصري"
+
+#. Label of the national_id (Data) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "National ID"
+msgstr "الرقم القومي"
+
+#. Label of the national_id_issue_date (Date) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "National ID Issue Date"
+msgstr "تاريخ إصدار الرقم القومي"
+
+#. Label of the national_id_expiry_date (Date) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "National ID Expiry Date"
+msgstr "تاريخ انتهاء الرقم القومي"
+
+#. Label of the social_insurance_number (Data) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Social Insurance Number"
+msgstr "الرقم التأميني"
+
+#. Description of the social_insurance_number (Data) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Marks the employee as insured for statutory fund headcount purposes."
+msgstr "يشير إلى أن الموظف مؤمَّن عليه لأغراض احتساب عدد المؤمَّن عليهم في الصناديق القانونية."
+
+#. Label of the social_insurance_date (Date) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Social Insurance Date"
+msgstr "تاريخ التأمين الاجتماعي"
+
+#. Label of the insurance_id (Data) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Insurance ID"
+msgstr "الرقم التأميني للتأمين الصحي"
+
+#. Label of the egypt_compliance_section_2 (Section Break) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Identity & Travel Documents"
+msgstr "مستندات الهوية والسفر"
+
+#. Label of the passport_id (Data) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Passport ID"
+msgstr "رقم جواز السفر"
+
+#. Label of the passport_issue_date (Date) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Passport Issue Date"
+msgstr "تاريخ إصدار جواز السفر"
+
+#. Label of the passport_expiry_date (Date) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Passport Expiry Date"
+msgstr "تاريخ انتهاء جواز السفر"
+
+#. Label of the work_permit_start_date (Date) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Work Permit Start Date"
+msgstr "تاريخ بداية تصريح العمل"
+
+#. Description of the work_permit_start_date (Date) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "For foreign employees only."
+msgstr "للموظفين الأجانب فقط."
+
+#. Label of the work_permit_expiry_date (Date) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Work Permit Expiry Date"
+msgstr "تاريخ انتهاء تصريح العمل"
+
+#. Label of the military_status (Select) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Military Status"
+msgstr "الموقف من التجنيد"
+
+#. Label of the egypt_compliance_section_3 (Section Break) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Additional Personal Details"
+msgstr "بيانات شخصية إضافية"
+
+#. Label of the religion (Data) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Religion"
+msgstr "الديانة"
+
+#. Label of the place_of_birth (Data) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Place of Birth"
+msgstr "محل الميلاد"
+
+#. Label of the mothers_name (Data) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Mother's Name"
+msgstr "اسم الأم"
+
+#. Label of the educational_specialization (Data) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Educational Specialization"
+msgstr "التخصص الدراسي"
+
+#. Label of the graduation_year (Int) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Graduation Year"
+msgstr "سنة التخرج"
+
+#. Label of the is_person_of_determination (Check) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Is Person of Determination"
+msgstr "من أصحاب الهمم"
+
+#. Description of the is_person_of_determination (Check) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Marks the employee as a person of determination for compliance reporting."
+msgstr "يشير إلى أن الموظف من أصحاب الهمم لأغراض تقارير الامتثال."
+
+#. Label of the relatives_section (Section Break) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Relatives Working at the Company"
+msgstr "الأقارب العاملون في الشركة"
+
+#. Label of the family_data_section (Section Break) field in DocType 'Employee'
+#: hrms/regional/egypt/setup.py
+msgid "Family Data"
+msgstr "بيانات الأسرة"
